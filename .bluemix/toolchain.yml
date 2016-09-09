@@ -13,7 +13,7 @@ sampleapp-repo:
   parameters:
     repo_name: "{{github.parameters.sampleapp-repo_name}}"
     repo_url: "{{github.parameters.sampleapp-repo_url}}"
-    type: clone
+    type: existing
     has_issues: false
   hidden: [form, description]
 
