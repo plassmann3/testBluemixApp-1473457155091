@@ -8,33 +8,31 @@ required:
  - github
 
 # Github repos
-sampleapp-repo:
+demodra-repo:
   service_id: githubpublic
   parameters:
-    repo_name: "{{github.parameters.sampleapp-repo_name}}"
-    repo_url: "{{github.parameters.sampleapp-repo_url}}"
+    repo_name: "{{github.parameters.demodra-repo_name}}"
+    repo_url: "{{github.parameters.demodra-repo_url}}"
     type: clone
     has_issues: false
   hidden: [form, description]
 
 # Pipelines
-sampleapp-build:
+demodra-build:
   service_id: pipeline
   parameters:
     name: "{{name}}"
     configuration:
       content: $file(demodra.pipeline.yml)
       env:
-        DEMODRA_API_REPO: "sampleapp-repo"
-        CF_APP_NAME: "{{deploy.parameters.sampleapp-app-name}}"
+        DEMODRA_API_REPO: "demodra-repo"
+        CF_APP_NAME: "{{deploy.parameters.demodra-app-name}}"
         DEV_SPACE_NAME: "{{deploy.parameters.dev-space}}"
         DEV_ORG_NAME: "{{deploy.parameters.dev-organization}}"
         DEV_REGION_ID: "{{deploy.parameters.dev-region}}"
       execute: true
-    services: ["sampleapp-repo"]
+    services: ["demodra-repo"]
   hidden: [form, description]
-
-#BELOW HERE ARE NOT SERVICES
 
 #Deployment
 deploy:
@@ -50,12 +48,12 @@ deploy:
     dev-space: dev
     qa-space: qa
     prod-space: prod
-    sampleapp-app-name: "{{sampleapp-repo.parameters.repo_name}}"
+    demodra-app-name: "{{demodra-repo.parameters.repo_name}}"
 
 #Github
 github:
   schema: github.json
   service-category: githubpublic
   parameters:
-    sampleapp-repo_name: "{{name}}"
-    sampleapp-repo_url: https://github.com/c4k9c0/testBluemixApp
+    demodra-repo_name: "{{name}}"
+    demodra-repo_url: https://github.com/uparulekar/DemoDRA
