@@ -57,5 +57,5 @@ github:
   schema: github.json
   service-category: githubpublic
   parameters:
-    sampleapp-repo_name: testBluemixApp
+    sampleapp-repo_name: {{name}}
     sampleapp-repo_url: https://github.com/c4k9c0/testBluemixApp
