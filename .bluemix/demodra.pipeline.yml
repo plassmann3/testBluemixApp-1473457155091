@@ -2,10 +2,9 @@
 stages:
 - name: Build
   inputs:
-  - url: https://github.com/c4k9c0/testBluemixApp.git
-    type: git
+  - type: git
     branch: master
-    dir_name: null
+    service: ${DEMODRA_API_REPO}
   triggers:
   - type: commit
   jobs:
@@ -33,10 +32,10 @@ stages:
   - name: Deploy
     type: deployer
     target:
-      region_id: ibm:ys1:us-south
-      organization: charlie.cox@IBM.com
-      space: dev
-      application: sampleapp-charlie
+      region_id: ${DEV_REGION_ID}
+      organization: ${DEV_ORG_NAME}
+      space: ${DEV_SPACE_NAME}
+      application: ${CF_APP_NAME}
     script: |
       #!/bin/bash
       cf push "${CF_APP}"
