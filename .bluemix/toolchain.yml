@@ -1,0 +1,61 @@
+---
+name: "Simple Weather Application with Deployment Risk Analytics"
+description: "With this cloud-native toolchain, you can build a simple Node.js weather application. The toolchain builds from a GitHub repository, runs unit tests by using Mocha, checks code coverage by using Istanbul, requests decisions from Deployment Risk Analytics, and then deploys to IBM Bluemix.\n\nTo get started, click **Create**."
+version: 0.1
+image: data:image/png;base64,$file(dra-toolchain.png,base64)
+required:
+ - deploy
+ - github
+
+# Github repos
+sampleapp-repo:
+  service_id: githubpublic
+  parameters:
+    repo_name: "{{github.parameters.sampleapp-repo_name}}"
+    repo_url: "{{github.parameters.sampleapp-repo_url}}"
+    type: clone
+    has_issues: false
+  hidden: [form, description]
+
+# Pipelines
+sampleapp-build:
+  service_id: pipeline
+  parameters:
+    name: "{{name}}"
+    configuration:
+      content: $file(demodra.pipeline.yml)
+      env:
+        DEMODRA_API_REPO: "sampleapp-repo"
+        CF_APP_NAME: "{{deploy.parameters.sampleapp-app-name}}"
+        DEV_SPACE_NAME: "{{deploy.parameters.dev-space}}"
+        DEV_ORG_NAME: "{{deploy.parameters.dev-organization}}"
+        DEV_REGION_ID: "{{deploy.parameters.dev-region}}"
+      execute: true
+    services: ["sampleapp-repo"]
+  hidden: [form, description]
+
+#BELOW HERE ARE NOT SERVICES
+
+#Deployment
+deploy:
+  schema: deploy.json
+  service-category: pipeline
+  parameters:
+    dev-region: "{{region}}"
+    qa-region: "{{region}}"
+    prod-region: "{{region}}"
+    dev-organization: "{{organization}}"
+    qa-organization: "{{organization}}"
+    prod-organization: "{{organization}}"
+    dev-space: dev
+    qa-space: qa
+    prod-space: prod
+    sampleapp-app-name: "{{sampleapp-repo.parameters.repo_name}}"
+
+#Github
+github:
+  schema: github.json
+  service-category: githubpublic
+  parameters:
+    sampleapp-repo_name: testBluemixApp
+    sampleapp-repo_url: https://github.com/c4k9c0/testBluemixApp
