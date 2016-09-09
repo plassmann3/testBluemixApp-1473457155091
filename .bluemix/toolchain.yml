@@ -56,4 +56,4 @@ github:
   service-category: githubpublic
   parameters:
     demodra-repo_name: "{{name}}"
-    demodra-repo_url: https://github.com/uparulekar/DemoDRA
+    demodra-repo_url: https://github.com/c4k9c0/testBluemixApp
